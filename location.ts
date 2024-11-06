@@ -8,13 +8,15 @@ export interface LocationInfo {
 
 export async function fetchLocationData(
   apiUrl: string,
-  locationName: string
+  locationName: string,
+  apiKey?: string
 ): Promise<LocationInfo> {
   const options = {
     method: "GET",
     url: apiUrl,
     params: {
       q: locationName,
+      api_key: apiKey,
     },
   };
 

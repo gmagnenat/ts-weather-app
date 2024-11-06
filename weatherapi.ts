@@ -35,7 +35,7 @@ interface CurrentWeatherApiResponse {
   temperature: string;
   windspeed: number;
   winddirection: number;
-  weaathercode: number;
+  weathercode: number;
   is_day: number;
   time: string;
 }
@@ -71,9 +71,9 @@ export class CurrentWeather {
     this.wind = {
       speed: apiResponse.windspeed,
       direction: apiResponse.winddirection,
-      unit: "km/h",
+      unit: "kmh",
     };
-    this.weathercode = apiResponse.weaathercode;
+    this.weathercode = apiResponse.weathercode;
     this.daytime = apiResponse.is_day === 1;
     this.time = apiResponse.time;
   }
@@ -86,8 +86,8 @@ export class CurrentWeather {
     const descriptionLen = 16;
 
     const temp = "Temperature".padStart(descriptionLen, " ");
-    const windspeed = "Temperature".padStart(descriptionLen, " ");
-    const condition = "Temperature".padStart(descriptionLen, " ");
+    const windspeed = "Wind Speed".padStart(descriptionLen, " ");
+    const condition = "Condition".padStart(descriptionLen, " ");
 
     const formatted: string[] = [];
     formatted.push(`${temp}: ${formatTemperature(this.temperature)}`);
@@ -111,8 +111,8 @@ export async function fetchWeatherData(
       longitude: lon,
       hourly: "temperature_2m",
       temperature_unit: "celsius",
-      windspeed_unit: "km/h",
-      currenet_weather: true,
+      windspeed_unit: "kmh",
+      current_weather: true,
     },
   };
 
