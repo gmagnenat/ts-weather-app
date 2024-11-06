@@ -53,3 +53,45 @@ export interface Wind {
 }
 
 const formatWind = (wind: Wind): string => `${wind.speed} ${wind.unit}`;
+
+export class CurrentWeather {
+  temperature: Temperature;
+  wind: Wind;
+  weathercode: number;
+  daytime: boolean;
+  time: string;
+
+  constructor(apiResponse: CurrentWeatherApiResponse) {
+    this.temperature = {
+      value: parseInt(apiResponse.temperature),
+      unit: "C",
+    };
+    this.wind = {
+      speed: apiResponse.windspeed,
+      direction: apiResponse.winddirection,
+      unit: "km/h",
+    };
+    this.weathercode = apiResponse.weaathercode;
+    this.daytime = apiResponse.is_day === 1;
+    this.time = apiResponse.time;
+  }
+
+  condition(): string {
+    return weatherCodes[this.weathercode];
+  }
+
+  format(): string {
+    const descriptionLen = 16;
+
+    const temp = "Temperature".padStart(descriptionLen, " ");
+    const windspeed = "Temperature".padStart(descriptionLen, " ");
+    const condition = "Temperature".padStart(descriptionLen, " ");
+
+    const formatted: string[] = [];
+    formatted.push(`${temp}: ${formatTemperature(this.temperature)}`);
+    formatted.push(`${windspeed}: ${formatWind(this.wind)}`);
+    formatted.push(`${condition}: ${this.condition()}`);
+
+    return formatted.join("\n");
+  }
+}
